@@ -11,7 +11,7 @@
 
 [assembly: global::Android.Runtime.ResourceDesignerAttribute("SendSMS.Resource", IsApplication=true)]
 
-namespace SendSMS
+namespace DailyContact
 {
 	
 	
@@ -60,8 +60,17 @@ namespace SendSMS
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050002
+			public const int btnLocation = 2131034114;
+			
+			// aapt resource value: 0x7f050003
+			public const int btnSendSMS = 2131034115;
+			
 			// aapt resource value: 0x7f050000
-			public const int MyButton = 2131034112;
+			public const int txtLatLong = 2131034112;
+			
+			// aapt resource value: 0x7f050001
+			public const int txtLocation = 2131034113;
 			
 			static Id()
 			{
