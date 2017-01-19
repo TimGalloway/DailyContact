@@ -12,10 +12,11 @@ using System.Linq;
 using Android.Util;
 using System.Threading.Tasks;
 using System.Text;
+using SendSMS;
 
 namespace DailyContact
 {
-    [Activity(Label = "DailyContact", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "DailyContact", MainLauncher = true, Icon = "@drawable/PSC4wd")]
     public class MainActivity : Activity, ILocationListener
     {
         Location _currentLocation;
@@ -25,7 +26,7 @@ namespace DailyContact
             _currentLocation = location;
             if (_currentLocation == null)
             {
-                //Error
+                _LatLongText.Text = "Cannot find current location";
             }else
             {
                 _LatLongText.Text = "Lat: " +_currentLocation.Latitude.ToString() + ": Long: " + _currentLocation.Longitude.ToString();
@@ -124,16 +125,21 @@ namespace DailyContact
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            _addressText = FindViewById<TextView>(Resource.Id.txtLocation);
-            _LatLongText = FindViewById<TextView>(Resource.Id.txtLatLong);
-            //FindViewById<TextView>(Resource.Id.get_address_button).Click += AddressButton_OnClick;
-
-            InitializeLocationManager();
-
             // Get our button from the layout resource,
             // and attach an event to it
             Button bSendSMS = FindViewById<Button>(Resource.Id.btnSendSMS);
             Button bGetLocation = FindViewById<Button>(Resource.Id.btnLocation);
+
+            // Get the text fields from the layout
+            _addressText = FindViewById<TextView>(Resource.Id.txtLocation);
+            _LatLongText = FindViewById<TextView>(Resource.Id.txtLatLong);
+
+            //Disable buttons until location is found
+            bSendSMS.Enabled = false;
+            bGetLocation.Enabled = false;
+
+            InitializeLocationManager();
+
 
             bSendSMS.Click += delegate {
                 SmsManager.Default.SendTextMessage("0403048129", null,
