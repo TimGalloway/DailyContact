@@ -30,6 +30,13 @@ namespace DailyContact
             }else
             {
                 _LatLongText.Text = "Lat: " +_currentLocation.Latitude.ToString() + ": Long: " + _currentLocation.Longitude.ToString();
+
+                // Get our button from the layout resource,
+                // and attach an event to it
+                Button bSendSMS = FindViewById<Button>(Resource.Id.btnSendSMS);
+                Button bGetLocation = FindViewById<Button>(Resource.Id.btnLocation);
+                bSendSMS.Enabled = true;
+                bGetLocation.Enabled = true;
             }
         }
 
@@ -140,10 +147,15 @@ namespace DailyContact
 
             InitializeLocationManager();
 
-
             bSendSMS.Click += delegate {
-                SmsManager.Default.SendTextMessage("0403048129", null,
-"Hello from Xamarin.Android", null, null);
+                var _PhoneNumbersText = FindViewById<TextView>(Resource.Id.txtPhoneNumbers);
+                var _SituationRB = FindViewById<RadioGroup>(Resource.Id.radioGroup1);
+                var _SituationButton = FindViewById<RadioButton>(_SituationRB.CheckedRadioButtonId);
+
+                String _SMSString = "Current Lat/Long: " + _currentLocation.Latitude.ToString() + " / " + _currentLocation.Longitude.ToString() +
+                                    "\r\n\r\nLocation: " + _addressText.Text +
+                                    "\r\n\r\nSituation: " + _SituationButton.Text; 
+                SmsManager.Default.SendTextMessage(_PhoneNumbersText.Text.ToString(), null, _SMSString, null, null);
                 bSendSMS.Text = string.Format("Sent"); };
 
             bGetLocation.Click += delegate
