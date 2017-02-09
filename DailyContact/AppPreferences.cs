@@ -2,7 +2,7 @@ using System;
 using Android.Content;
 using Android.Preferences;
 
-namespace SendSMS
+namespace DailyContact
 {
     public class AppPreferences
     {

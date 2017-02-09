@@ -12,7 +12,7 @@ using System.Linq;
 using Android.Util;
 using System.Threading.Tasks;
 using System.Text;
-using SendSMS;
+using DailyContact;
 
 namespace DailyContact
 {

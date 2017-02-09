@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("SendSMS.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("DailyContact.Resource", IsApplication=true)]
 
-namespace SendSMS
+namespace DailyContact
 {
 	
 	
