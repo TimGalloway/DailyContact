@@ -163,6 +163,12 @@ namespace DailyContact
                 btnLocation_OnClick();
             };
 
+            ImageButton testbutton = FindViewById<ImageButton>(Resource.Id.btnSettings);
+            testbutton.Click += delegate {
+                SetContentView(Resource.Layout.Settings);
+            };
+
+           
         }
     }
 }
