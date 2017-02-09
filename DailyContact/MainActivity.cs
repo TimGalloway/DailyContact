@@ -162,14 +162,23 @@ namespace DailyContact
                 var _SituationRB = FindViewById<RadioGroup>(Resource.Id.radioGroup1);
                 var _SituationButton = FindViewById<RadioButton>(_SituationRB.CheckedRadioButtonId);
 
+                // fetch the Sms Manager
+                SmsManager sms = SmsManager.Default;
+
                 String _SMSString = "Current Lat/Long: " + _currentLocation.Latitude.ToString() + " / " + _currentLocation.Longitude.ToString() +
                                     "\r\n\r\nLocation: " + _addressText.Text +
-                                    "\r\n\r\nSituation: " + _SituationButton.Text; 
-                SmsManager.Default.SendTextMessage(_PhoneNumbersText.Text.ToString(), null, _SMSString, null, null);
+                                    "\r\n\r\nSituation: " + _SituationButton.Text;
 
+                // split it between any commas, stripping whitespace afterwards
+                String userInput = _PhoneNumbersText.Text.ToString();
+                String[] numbers = userInput.Split(',');
 
-                string key = _PhoneNumbersText.Text.ToString();
-                ap.saveAccessKey(key);
+                foreach (string number in numbers)
+                {
+                    sms.SendTextMessage(number, null, _SMSString, null, null);
+                }
+
+                ap.saveAccessKey(userInput);
 
                 bSendSMS.Text = string.Format("Sent"); };
 
