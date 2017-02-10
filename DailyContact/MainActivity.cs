@@ -180,7 +180,13 @@ namespace DailyContact
 
                 ap.saveAccessKey(userInput);
 
-                bSendSMS.Text = string.Format("Sent"); };
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.SetTitle("Alert");
+                builder.SetMessage("Message(s) sent");
+                builder.SetCancelable(false);
+                builder.SetPositiveButton("OK", delegate { Finish(); });
+                builder.Show();
+            };
 
             bGetLocation.Click += delegate
             {
