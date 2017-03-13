@@ -40,19 +40,19 @@ namespace DailyContact
         LocationManager locationManager;
 
         /// <summary>
-        /// String represting the location provider
+        /// String representing the location provider
         /// </summary>
         string locationProvider;
 
         /// <summary>
-        /// object that is the lat long text
+        /// object that is the latitude long text
         /// </summary>
         TextView latLongText;
 
         /// <summary>
         /// Method that is run when location changes
         /// </summary>
-        /// <param name="location"></param>
+        /// <param name="location">The location of the device</param>
         public void OnLocationChanged(Location location)
         {
             this.currentLocation = location;
@@ -109,7 +109,7 @@ namespace DailyContact
             AppPreferences ap = new AppPreferences(context);
 
             // Get current phone numbers 
-            string phonenumbers = ap.getAccessKey();
+            string phonenumbers = ap.GetAccessKey();
 
             // Get our button from the layout resource,
             // and attach an event to it
@@ -151,7 +151,7 @@ namespace DailyContact
                     sms.SendTextMessage(number, null, strSMS, null, null);
                 }
 
-                ap.saveAccessKey(userInput);
+                ap.SaveAccessKey(userInput);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.SetTitle("Alert");
