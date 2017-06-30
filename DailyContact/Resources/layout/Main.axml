@@ -50,6 +50,11 @@
             android:layout_height="wrap_content"
             android:text="Emergency"
             android:id="@+id/radioButton3" />
+        <RadioButton
+            android:text="Test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton4" />
     </RadioGroup>
     <Button
         android:text="Send SMS"

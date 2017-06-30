@@ -12,7 +12,7 @@ using System.Linq;
 using Android.Util;
 using System.Threading.Tasks;
 using System.Text;
-using SendSMS;
+using DailyContact;
 
 namespace DailyContact
 {
@@ -132,10 +132,20 @@ namespace DailyContact
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
+            // Set AppPreferences object
+            Context mContext = Android.App.Application.Context;
+            AppPreferences ap = new AppPreferences(mContext);
+
+            // Get current phone numbers 
+            string _phonenumbers = ap.getAccessKey();
+
             // Get our button from the layout resource,
             // and attach an event to it
             Button bSendSMS = FindViewById<Button>(Resource.Id.btnSendSMS);
             Button bGetLocation = FindViewById<Button>(Resource.Id.btnLocation);
+            EditText tPhoneNumbers = FindViewById<EditText>(Resource.Id.txtPhoneNumbers);
+
+            tPhoneNumbers.Text = _phonenumbers;
 
             // Get the text fields from the layout
             _addressText = FindViewById<TextView>(Resource.Id.txtLocation);
@@ -152,11 +162,31 @@ namespace DailyContact
                 var _SituationRB = FindViewById<RadioGroup>(Resource.Id.radioGroup1);
                 var _SituationButton = FindViewById<RadioButton>(_SituationRB.CheckedRadioButtonId);
 
+                // fetch the Sms Manager
+                SmsManager sms = SmsManager.Default;
+
                 String _SMSString = "Current Lat/Long: " + _currentLocation.Latitude.ToString() + " / " + _currentLocation.Longitude.ToString() +
                                     "\r\n\r\nLocation: " + _addressText.Text +
-                                    "\r\n\r\nSituation: " + _SituationButton.Text; 
-                SmsManager.Default.SendTextMessage(_PhoneNumbersText.Text.ToString(), null, _SMSString, null, null);
-                bSendSMS.Text = string.Format("Sent"); };
+                                    "\r\n\r\nSituation: " + _SituationButton.Text;
+
+                // split it between any commas, stripping whitespace afterwards
+                String userInput = _PhoneNumbersText.Text.ToString();
+                String[] numbers = userInput.Split(',');
+
+                foreach (string number in numbers)
+                {
+                    sms.SendTextMessage(number, null, _SMSString, null, null);
+                }
+
+                ap.saveAccessKey(userInput);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.SetTitle("Alert");
+                builder.SetMessage("Message(s) sent");
+                builder.SetCancelable(false);
+                builder.SetPositiveButton("OK", delegate { Finish(); });
+                builder.Show();
+            };
 
             bGetLocation.Click += delegate
             {
