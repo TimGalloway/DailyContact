@@ -13,6 +13,7 @@ using Android.Util;
 using System.Threading.Tasks;
 using System.Text;
 using DailyContact;
+using DailyContact.DB;
 
 namespace DailyContact
 {
@@ -154,6 +155,10 @@ namespace DailyContact
             //Disable buttons until location is found
             bSendSMS.Enabled = false;
             bGetLocation.Enabled = false;
+
+            //Connect to DB
+            DBFunctions db = new DBFunctions();
+            db.createDatabase(".");
 
             InitializeLocationManager();
 
