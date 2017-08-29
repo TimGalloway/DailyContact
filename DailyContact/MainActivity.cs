@@ -161,12 +161,13 @@ namespace DailyContact
                 var _PhoneNumbersText = FindViewById<TextView>(Resource.Id.txtPhoneNumbers);
                 var _SituationRB = FindViewById<RadioGroup>(Resource.Id.radioGroup1);
                 var _SituationButton = FindViewById<RadioButton>(_SituationRB.CheckedRadioButtonId);
+                var _Comments = FindViewById<TextView>(Resource.Id.txtComments);
 
                 // fetch the Sms Manager
                 SmsManager sms = SmsManager.Default;
 
                 String _SMSString = "Current Lat/Long: " + _currentLocation.Latitude.ToString() + " / " + _currentLocation.Longitude.ToString() +
-                                    "\r\n\r\nLocation: " + _addressText.Text +
+                                    "\r\n\r\nComments: " + _Comments.Text +
                                     "\r\n\r\nSituation: " + _SituationButton.Text;
 
                 // split it between any commas, stripping whitespace afterwards
