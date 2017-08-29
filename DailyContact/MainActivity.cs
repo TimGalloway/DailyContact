@@ -113,7 +113,7 @@ namespace DailyContact
 
             // Get our button from the layout resource,
             // and attach an event to it
-            Button sendSMS = FindViewById<Button>(Resource.Id.btnSendSMS);
+            Button bSendSMS = FindViewById<Button>(Resource.Id.btnSendSMS);
             Button getLocation = FindViewById<Button>(Resource.Id.btnLocation);
             EditText phoneNumbers = FindViewById<EditText>(Resource.Id.txtPhoneNumbers);
 
@@ -124,7 +124,7 @@ namespace DailyContact
             this.latLongText = this.FindViewById<TextView>(Resource.Id.txtLatLong);
 
             // Disable buttons until location is found
-            sendSMS.Enabled = false;
+            bSendSMS.Enabled = false;
             getLocation.Enabled = false;
 
             this.InitializeLocationManager();
@@ -138,17 +138,17 @@ namespace DailyContact
                 // fetch the Sms Manager
                 SmsManager sms = SmsManager.Default;
 
-                String _SMSString = "Current Lat/Long: " + _currentLocation.Latitude.ToString() + " / " + _currentLocation.Longitude.ToString() +
+                String _SMSString = "Current Lat/Long: " + currentLocation.Latitude.ToString() + " / " + currentLocation.Longitude.ToString() +
                                     "\r\n\r\nComments: " + _Comments.Text +
                                     "\r\n\r\nSituation: " + _SituationButton.Text;
 
                 // split it between any commas, stripping whitespace afterwards
-                string userInput = phoneNumbersText.Text.ToString();
+                string userInput = _PhoneNumbersText.Text.ToString();
                 string[] numbers = userInput.Split(',');
 
                 foreach (string number in numbers)
                 {
-                    sms.SendTextMessage(number, null, strSMS, null, null);
+                    sms.SendTextMessage(number, null, _SMSString, null, null);
                 }
 
                 ap.SaveAccessKey(userInput);
