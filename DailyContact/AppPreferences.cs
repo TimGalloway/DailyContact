@@ -1,33 +1,34 @@
-using System;
-using Android.Content;
-using Android.Preferences;
 
 namespace DailyContact
 {
+    using System;
+    using Android.Content;
+    using Android.Preferences;
+
     public class AppPreferences
     {
-        private ISharedPreferences mSharedPrefs;
-        private ISharedPreferencesEditor mPrefsEditor;
-        private Context mContext;
+        private static string PREFERENCEACCESSKEY = "PREFERENCE_ACCESS_KEY";
 
-        private static String PREFERENCE_ACCESS_KEY = "PREFERENCE_ACCESS_KEY";
+        private ISharedPreferences MSharedPrefs;
+        private ISharedPreferencesEditor MPrefsEditor;
+        private Context MContext;
 
         public AppPreferences(Context context)
         {
-            this.mContext = context;
-            mSharedPrefs = PreferenceManager.GetDefaultSharedPreferences(mContext);
-            mPrefsEditor = mSharedPrefs.Edit();
+            this.MContext = context;
+            this.MSharedPrefs = PreferenceManager.GetDefaultSharedPreferences(this.MContext);
+            this.MPrefsEditor = this.MSharedPrefs.Edit();
         }
 
-        public void saveAccessKey(string key)
+        public void SaveAccessKey(string key)
         {
-            mPrefsEditor.PutString(PREFERENCE_ACCESS_KEY, key);
-            mPrefsEditor.Commit();
+            this.MPrefsEditor.PutString(PREFERENCEACCESSKEY, key);
+            this.MPrefsEditor.Commit();
         }
 
-        public string getAccessKey()
+        public string GetAccessKey()
         {
-            return mSharedPrefs.GetString(PREFERENCE_ACCESS_KEY, "");
+            return this.MSharedPrefs.GetString(PREFERENCEACCESSKEY, string.Empty);
         }
     }
 }
