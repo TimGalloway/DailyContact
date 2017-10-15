@@ -107,7 +107,7 @@ namespace DailyContact
             AppPreferences ap = new AppPreferences(mContext);
 
             // Get current phone numbers 
-            string _phonenumbers = ap.getAccessKey();
+            string _phonenumbers = ap.GetAccessKey();
 
             // Get our button from the layout resource,
             // and attach an event to it
@@ -148,7 +148,7 @@ namespace DailyContact
                     sms.SendTextMessage(number, null, _SMSString, null, null);
                 }
 
-                ap.saveAccessKey(userInput);
+                ap.SaveAccessKey(userInput);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.SetTitle("Alert");
