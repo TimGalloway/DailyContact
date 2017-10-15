@@ -1,8 +1,6 @@
 ﻿using System;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Telephony;
@@ -10,9 +8,7 @@ using Android.Locations;
 using System.Collections.Generic;
 using System.Linq;
 using Android.Util;
-using System.Threading.Tasks;
 using System.Text;
-using DailyContact;
 
 namespace DailyContact
 {
@@ -85,38 +81,12 @@ namespace DailyContact
             _locationManager.RemoveUpdates(this);
         }
 
-        async Task<Address> ReverseGeocodeCurrentLocation()
-        {
-            Geocoder geocoder = new Geocoder(this);
-            IList<Address> addressList =
-                await geocoder.GetFromLocationAsync(_currentLocation.Latitude, _currentLocation.Longitude, 10);
-
-            Address address = addressList.FirstOrDefault();
-            return address;
-        }
-
-        async void btnLocation_OnClick()
-        {
-            if (_currentLocation == null)
-            {
-                _addressText.Text = "Can't determine the current address. Try again in a few minutes.";
-                return;
-            }
-
-            Address address = await ReverseGeocodeCurrentLocation();
-            DisplayAddress(address);
-        }
-
         void DisplayAddress(Address address)
         {
             if (address != null)
             {
                 StringBuilder deviceAddress = new StringBuilder();
-                for (int i = 0; i < address.MaxAddressLineIndex; i++)
-                {
-                    deviceAddress.AppendLine(address.GetAddressLine(i));
-                }
-                // Remove the last comma from the end of the address.
+                deviceAddress.AppendLine(address.GetAddressLine(0));
                 _addressText.Text = deviceAddress.ToString();
             }
             else
@@ -188,11 +158,20 @@ namespace DailyContact
                 builder.Show();
             };
 
-            bGetLocation.Click += delegate
+            bGetLocation.Click += async (sender, e) =>
             {
-                btnLocation_OnClick();
-            };
+                var geo = new Geocoder(this);
+                var addresses = await geo.GetFromLocationAsync(_currentLocation.Latitude, _currentLocation.Longitude,1);
 
+                if (addresses.Any())
+                {
+                    DisplayAddress(addresses.FirstOrDefault());
+                }
+                else
+                {
+                    _addressText.Text = e.ToString();
+                }
+            };
         }
     }
 }
